@@ -66,6 +66,11 @@ public class ISKMAuthenticationImpl implements RestAPIAuthenticator {
         String accessToken = extractOAuthAccessTokenFromMessage(message,
                 AuthenticatorConstants.REGEX_BEARER_PATTERN, AuthenticatorConstants.AUTH_HEADER_NAME);
 
+        if (StringUtils.countMatches(accessToken, APIConstants.DOT) != 2) {
+            log.error("Invalid JWT token. The expected token format is <header.payload.signature>");
+            return false;
+        }
+
         try {
             signedJWT = SignedJWT.parse(accessToken);
             // Get the token information, and set token validity by checking the expiry time
@@ -258,10 +263,6 @@ public class ISKMAuthenticationImpl implements RestAPIAuthenticator {
             return false; //
         }
 
-        if (StringUtils.countMatches(accessToken, APIConstants.DOT) != 2) {
-            log.error("Invalid JWT token. The expected token format is <header.payload.signature>");
-            return false;
-        }
         return true;
     }
 
