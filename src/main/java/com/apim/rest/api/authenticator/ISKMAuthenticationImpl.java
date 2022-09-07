@@ -260,7 +260,7 @@ public class ISKMAuthenticationImpl implements RestAPIAuthenticator {
                 AuthenticatorConstants.REGEX_BEARER_PATTERN, AuthenticatorConstants.AUTH_HEADER_NAME);
 
         if (StringUtils.isNotEmpty(accessToken) && accessToken.length() < 64) {
-            return false; //
+            return false;
         }
 
         return true;
